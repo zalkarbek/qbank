@@ -1,0 +1,34 @@
+{
+  "name": "qbank",
+  "version": "1.0.0",
+  "description": "RSK Bank Queue",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "cross-env NODE_ENV=development nodemon index.js",
+    "prod": "cross-env NODE_ENV=production node index.s"
+  },
+  "author": "program.kg",
+  "license": "ISC",
+  "dependencies": {
+    "@koa/cors": "^3.1.0",
+    "@koa/router": "^10.0.0",
+    "cross-env": "^7.0.3",
+    "dotenv": "^8.2.0",
+    "koa": "^2.13.0",
+    "koa-body": "^4.2.0",
+    "koa-logger": "^3.2.1",
+    "rimraf": "^3.0.2",
+    "websocket": "^1.0.32",
+    "ws": "^7.4.1"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.12.8",
+    "@babel/core": "^7.12.8",
+    "@babel/plugin-proposal-async-generator-functions": "^7.12.1",
+    "@babel/polyfill": "^7.12.1",
+    "@babel/preset-env": "^7.12.7",
+    "@babel/register": "^7.12.1",
+    "nodemon": "^2.0.6"
+  }
+}
