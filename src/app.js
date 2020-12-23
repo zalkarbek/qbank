@@ -26,19 +26,19 @@ app
 app.use(errorHandler404());
 
 const httpServer = http.createServer(app.callback());
-const wss = new websocket.Server({
+const ws = new websocket.Server({
   server: httpServer
 });
 
-socketsRoutes({ ws: wss });
+socketsRoutes({ ws });
 function listening() {
     httpServer.listen(process.env.HOST_PORT);
     console.log('http server started on port:', process.env.HOST_PORT);
-};
+}
 
 module.exports = {
   listening,
   httpServer,
-  wss
+  ws
 }
 
