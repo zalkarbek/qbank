@@ -37,8 +37,8 @@ function listening() {
 }
 
 module.exports = {
-  listening,
-  httpServer,
-  ws
+    listening,
+    httpServer,
+    ws
 }
 
