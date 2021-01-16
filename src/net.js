@@ -14,7 +14,7 @@ const netSocketServer = net.createServer((socket) => {
   }).on('error', (err) => {
     console.error(err);
   });
-  
+
 
 // Open server on port 3003
 netSocketServer.listen(3002, () => {

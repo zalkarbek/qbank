@@ -1,28 +1,34 @@
 require('dotenv').config()
 
 module.exports = {
-  "development": {
-    "username": process.env.DB_USERNAME,
-    "password": process.env.DB_PASSWORD,
-    "database": process.env.DB_NAME,
-    "host": process.env.DB_HOST,
-    "port": process.env.DB_PORT,
-    "dialect": process.env.DB_DIALECT
+  development: {
+    client: process.env.DB_DIALECT,
+    connection: {
+      host: process.env.DB_HOST,
+      port: process.env.DB_PORT,
+      user: process.env.DB_USERNAME,
+      password: process.env.DB_PASSWORD,
+      database: process.env.DB_NAME
+    }
   },
-  "test": {
-    "username": "admin",
-    "password": '1',
-    "database": "rskbank",
-    "host": "127.0.0.1",
-    "port": 3306,
-    "dialect": "mysql"
+  test: {
+    client: process.env.DB_DIALECT,
+    connection: {
+      host: process.env.DB_HOST,
+      port: process.env.DB_PORT,
+      user: process.env.DB_USERNAME,
+      password: process.env.DB_PASSWORD,
+      database: process.env.DB_NAME
+    }
   },
-  "production": {
-    "username": process.env.DB_USERNAME,
-    "password": process.env.DB_PASSWORD,
-    "database": process.env.DB_NAME,
-    "host": process.env.DB_HOST,
-    "port": process.env.DB_PORT,
-    "dialect": process.env.DB_DIALECT
+  production: {
+    client: process.env.DB_DIALECT,
+    connection: {
+      host: process.env.DB_HOST,
+      port: process.env.DB_PORT,
+      user: process.env.DB_USERNAME,
+      password: process.env.DB_PASSWORD,
+      database: process.env.DB_NAME
+    }
   }
 }

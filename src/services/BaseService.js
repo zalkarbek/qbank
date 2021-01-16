@@ -1,17 +1,22 @@
 const db = require('../database/models/index')
+const mimeList = require('../config/mime')
 
 class BaseService {
-    static getDB() {
-        return BaseService.__db
+    static db() {
+        return db
     }
     static getQuery() {
-        return BaseService.__db
+        return db
     }
-    static getModel(modelName) {
-        return BaseService.__db[name]
+    init(context) {
+        this.context = context
+        return this
     }
 }
 
-BaseService.__db = db
+BaseService.prototype._db = db
+BaseService.prototype.getMime = function () {
+    return mimeList
+}
 
 module.exports = BaseService;

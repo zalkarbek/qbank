@@ -5,4 +5,4 @@ class TerminalService extends BaseService {
 
 }
 
-module.exports = TerminalService;
+module.exports =  new TerminalService();
