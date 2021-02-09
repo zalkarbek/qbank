@@ -6,7 +6,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "cross-env NODE_ENV=development nodemon index.js",
-    "prod": "cross-env NODE_ENV=production node index.s"
+	"prod": "cross-env NODE_ENV=production pm2 start index.js --name=qbank",
+    "monit": "cross-env NODE_ENV=production pm2 monit qbank",
+    "stop": "cross-env NODE_ENV=production pm2 stop qbank"
   },
   "author": "program.kg",
   "license": "ISC",
@@ -24,6 +26,7 @@
     "lodash": "^4.17.20",
     "mysql": "^2.18.1",
     "mysql2": "^2.2.5",
+    "pm2": "^4.5.1",
     "rimraf": "^3.0.2",
     "sequelize": "^6.3.5",
     "websocket": "^1.0.32",

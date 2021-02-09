@@ -20,13 +20,18 @@ class TurnService extends BaseService {
     async getRangeOperatorServedCount(startDate, endDate) {
         return this._db
             .select(
-                'users.name_u AS user_name'
+                'users.id AS user_id'
+                ,'users.name_u AS user_name'
                 , 'turns.status AS turn_status'
             )
             .from('users')
             .innerJoin('turns', 'users.id', '=', 'turns.user_id')
-            .whereRaw('DATE(turns.created_at) BETWEEN DATE(?) AND DATE(?)', [startDate, endDate])
-            .groupBy('user_name', 'turn_status')
+            .whereRaw(
+                'TIME_TO_SEC(TIMEDIFF(turns.updated_at, turns.created_at)) > 10 ' +
+                'AND DATE(turns.created_at) BETWEEN DATE(?) AND DATE(?)',
+                [startDate, endDate]
+            )
+            .groupBy('user_id', 'user_name', 'turn_status')
             .count('*', { as: 'counted' })
     }
 
@@ -40,9 +45,7 @@ class TurnService extends BaseService {
             .from('services')
             .rightJoin('turns', 'services.id', '=', 'turns.service_id')
             .whereRaw(
-                'ISNULL(turns.came_from)' +
-                'AND ISNULL(turns.this_way)' +
-                'AND DATE(turns.created_at) BETWEEN DATE(?) AND DATE(?)'
+                'DATE(turns.created_at) BETWEEN DATE(?) AND DATE(?)'
                 , [startDate, endDate]
             )
             .groupBy('service_name', 'turn_status')
@@ -53,13 +56,19 @@ class TurnService extends BaseService {
     async getTodayOperatorServedCount() {
         return this._db
             .select(
-                'users.name_u AS user_name'
+                'users.id AS user_id'
+            ,'users.name_u AS user_name'
             , 'turns.status AS turn_status'
             )
             .from('users')
             .innerJoin('turns', 'users.id', '=', 'turns.user_id')
-            .whereRaw('YEAR(turns.created_at) = YEAR(NOW()) AND MONTH(turns.created_at) = MONTH(NOW()) AND DAY(turns.created_at) = DAY(NOW())')
-            .groupBy('user_name', 'turn_status')
+            .whereRaw(
+                'TIME_TO_SEC(TIMEDIFF(turns.updated_at, turns.created_at)) > 10 ' +
+                'AND YEAR(turns.created_at) = YEAR(NOW()) ' +
+                'AND MONTH(turns.created_at) = MONTH(NOW()) ' +
+                'AND DAY(turns.created_at) = DAY(NOW())'
+            )
+            .groupBy('user_id', 'user_name', 'turn_status')
             .count('*', { as: 'counted' })
     }
 
@@ -75,9 +84,7 @@ class TurnService extends BaseService {
             .whereRaw(
                 'YEAR(turns.created_at) = YEAR(NOW()) ' +
                 'AND MONTH(turns.created_at) = MONTH(NOW()) ' +
-                'AND DAY(turns.created_at) = DAY(NOW())' +
-                'AND ISNULL(turns.came_from)' +
-                'AND ISNULL(turns.this_way)'
+                'AND DAY(turns.created_at) = DAY(NOW())'
             )
             .groupBy('service_name', 'turn_status')
             .count('*', { as: 'counted' })
@@ -87,7 +94,11 @@ class TurnService extends BaseService {
     async getTodayTurns() {
         const query = this.getTurnQueryBuilder()
         return query
-            .whereRaw('YEAR(turns.created_at) = YEAR(NOW()) AND MONTH(turns.created_at) = MONTH(NOW()) AND DAY(turns.created_at) = DAY(NOW())')
+            .whereRaw(
+                'YEAR(turns.created_at) = YEAR(NOW()) ' +
+                'AND MONTH(turns.created_at) = MONTH(NOW()) ' +
+                'AND DAY(turns.created_at) = DAY(NOW())'
+            )
     }
 
     // получить список очередей с группировкой по статусу по году по месяцу по дню
@@ -104,9 +115,7 @@ class TurnService extends BaseService {
             .leftJoin('position', 'position.id', '=' ,'users.position_id')
             .leftJoin('services', 'services.id', '=', 'turns.service_id')
             .whereRaw(
-                'ISNULL(turns.came_from)' +
-                'AND ISNULL(turns.this_way)' +
-                'AND DATE(turns.created_at) BETWEEN DATE(?) AND DATE(?)'
+                'DATE(turns.created_at) BETWEEN DATE(?) AND DATE(?)'
                 , [startDate, endDate]
             )
             .groupByRaw(
@@ -131,9 +140,7 @@ class TurnService extends BaseService {
             .leftJoin('position', 'position.id', '=' ,'users.position_id')
             .leftJoin('services', 'services.id', '=', 'turns.service_id')
             .whereRaw(
-                'ISNULL(turns.came_from)' +
-                'AND ISNULL(turns.this_way)' +
-                'AND DATE(turns.created_at) BETWEEN DATE(?) AND DATE(?)'
+                'DATE(turns.created_at) BETWEEN DATE(?) AND DATE(?)'
                 , [startDate, endDate]
             )
             .groupByRaw(
@@ -156,9 +163,7 @@ class TurnService extends BaseService {
             .leftJoin('position', 'position.id', '=' ,'users.position_id')
             .leftJoin('services', 'services.id', '=', 'turns.service_id')
             .whereRaw(
-                'ISNULL(turns.came_from)' +
-                'AND ISNULL(turns.this_way)' +
-                'AND DATE(turns.created_at) BETWEEN DATE(?) AND DATE(?)'
+                'DATE(turns.created_at) BETWEEN DATE(?) AND DATE(?)'
                 , [startDate, endDate]
             )
             .groupByRaw('turn_status, YEAR(turns.created_at)')
