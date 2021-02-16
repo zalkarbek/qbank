@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "cross-env NODE_ENV=development nodemon index.js",
-	"prod": "cross-env NODE_ENV=production pm2 start index.js --name=qbank",
+    "prod": "cross-env NODE_ENV=production pm2 start index.js --name=qbank",
     "monit": "cross-env NODE_ENV=production pm2 monit qbank",
     "stop": "cross-env NODE_ENV=production pm2 stop qbank"
   },
@@ -16,11 +16,14 @@
     "@koa/cors": "^3.1.0",
     "@koa/router": "^10.0.0",
     "app-root-path": "^3.0.0",
+    "bcrypt": "^5.0.0",
     "cross-env": "^7.0.3",
     "dotenv": "^8.2.0",
+    "jsonwebtoken": "^8.5.1",
     "knex": "^0.21.15",
     "koa": "^2.13.0",
     "koa-body": "^4.2.0",
+    "koa-jwt": "^4.0.0",
     "koa-logger": "^3.2.1",
     "koa-static": "^5.0.0",
     "lodash": "^4.17.20",
@@ -28,7 +31,8 @@
     "mysql2": "^2.2.5",
     "pm2": "^4.5.1",
     "rimraf": "^3.0.2",
-    "sequelize": "^6.3.5",
+    "sequelize": "^6.5.0",
+    "uuid": "^8.3.2",
     "websocket": "^1.0.32",
     "ws": "^7.4.1"
   },

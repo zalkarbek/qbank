@@ -1,8 +1,6 @@
 const serviceFactory = require('../services/index')
 
-class Controller {
-
-}
+class Controller {}
 
 Controller.prototype._service = function() {
     return serviceFactory
