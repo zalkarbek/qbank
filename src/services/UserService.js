@@ -13,6 +13,10 @@ class UserService extends BaseService {
     async getUserById(id) {
 
     }
+
+    async setRoles(roles) {
+
+    }
 }
 
 module.exports = new UserService();

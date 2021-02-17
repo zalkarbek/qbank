@@ -12,11 +12,16 @@ const sequelizeConfig = require('../config/sequelize')[env];
 const QUERY = require('./const/queries');
 
 const db = {
-    sequelizeModels: {}
+    sequelize: {},
+    sequelizeModels: {},
+    knex: {},
+    departmentDB: {},
+    Sequelize,
+    Op: Sequelize.Op,
+    QUERY
 };
-const departmentDB = {};
 
-const knex = require('knex')({
+db.knex = require('knex')({
     ...knexConfig
 })
 
@@ -32,11 +37,9 @@ if (env) {
         dialect: 'mysql'
     });
 }
-
-console.log(db.sequelize)
-
+console.log(__dirname + '\\models')
 fs
-    .readdirSync(__dirname + '/models')
+    .readdirSync(__dirname + '\\models')
     .filter(file => {
         return (file.indexOf('.') !== 0)
             && (file !== basename)
@@ -44,20 +47,15 @@ fs
             && (file.slice(-3) === '.js');
     })
     .forEach(file => {
-        const model = db.sequelize['import'](path.join(__dirname + '/models', file));
+        const modelBuilder = require(path.join(__dirname + '\\models', file));
+        const model = modelBuilder(db.sequelize, db.Sequelize.DataTypes);
         db.sequelizeModels[model.name] = model;
     });
 
-Object.keys(db).forEach(modelName => {
+Object.keys(db.sequelizeModels).forEach(modelName => {
     if (db.sequelizeModels[modelName].associate) {
         db.sequelizeModels[modelName].associate(db.sequelizeModels);
     }
 });
-
-db.departmentDB = departmentDB;
-db.knex = knex;
-db.Sequelize = Sequelize;
-db.QUERY = QUERY;
-db.Op = Sequelize.Op;
 
 module.exports = db;

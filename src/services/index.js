@@ -4,6 +4,7 @@ const AdsService = require('./AdsService')
 const HelperService = require('./HelperService')
 const UserService = require('./UserService')
 const TvTablosService = require('./TvTablosService')
+const AuthSerice = require('./AuthService')
 
 class ServiceFactory {
     constructor(context) {
@@ -14,7 +15,8 @@ class ServiceFactory {
             ads: AdsService.init(context),
             helper: HelperService.init(context),
             user: UserService.init(context),
-            tvtablos: TvTablosService.init(context)
+            tvtablos: TvTablosService.init(context),
+            auth: AuthSerice.init(context)
         }
     }
 

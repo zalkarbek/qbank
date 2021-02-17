@@ -1,6 +1,6 @@
 const fs = require('fs');
 const crypto = require('crypto');
-const uuidV4 = require('uuid/v4');
+const { v4 } = require('uuid');
 const jwt = require('jsonwebtoken');
 
 const jwtConfig = require('../config/jwt');
@@ -13,7 +13,7 @@ class TokenGenerator {
     return crypto.createHash('sha256').update(rawString).digest('hex');
   }
   uid() {
-    return uuidV4();
+    return v4();
   }
   jwtSign(data) {
     return jwt.sign(data, privateKey, jwtConfig);

@@ -6,7 +6,8 @@ module.exports.use = function(koaRouter) {
     });
 
     apiRoute.post('/authenticate', controller.authenticate.bind(controller))
+    apiRoute.post('/register', controller.register.bind(controller))
     apiRoute.post('/logout', controller.logout.bind(controller))
-    apiRoute.post('/change-password', controller.changePassword(controller))
+    apiRoute.post('/change-password', controller.changePassword.bind(controller))
     return apiRoute.routes();
 }

@@ -1,54 +1,44 @@
 module.exports = (sequelize, DataTypes) => {
   const schema = sequelize.define('user', {
 
-    email: {
-      type: DataTypes.STRING(300),
-      allowNull: false
+    name_u: {
+      type: DataTypes.STRING(250),
+      allowNull: true
     },
 
-    name: {
-      type: DataTypes.STRING(300),
+    login: {
+      type: DataTypes.STRING(250),
       allowNull: true
     },
 
     password: {
-      type:DataTypes.STRING(600),
+      type:DataTypes.STRING(250),
       allowNull: false
     },
 
-    tokenId: {
+    access_token: {
       type: DataTypes.TEXT,
       allowNull: true
     },
 
-    active: {
-      type: DataTypes.BOOLEAN,
+    type: {
+      type: DataTypes.TEXT,
       allowNull: true,
-      defaultValue: 1
+      defaultValue: 'web'
     },
 
-    lock: {
-      type: DataTypes.BOOLEAN,
-      allowNull: true,
-      defaultValue: 0
-    }
-
   }, {
-    tableName: 'user',
+    tableName: 'users',
     modelName: 'user',
-    timestamps: true
+    timestamps: false
   });
 
   schema.associate = (models) => {
     // associations can be defined here
     schema.belongsToMany(models.role, {
-      through: 'user_in_roles',
+      through: 'users_in_roles',
       foreignKey: 'user_id',
       otherKey: 'role_id'
-    });
-
-    schema.hasOne(models.personal, {
-      foreignKey: 'userId'
     });
   };
 

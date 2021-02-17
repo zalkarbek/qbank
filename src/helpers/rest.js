@@ -1,10 +1,9 @@
-const i18n = require('../i18n');
 
 class REST {
   responseWith({ unit, message, data = {} }) {
     return {
       error: false,
-      message: i18n.t(message, { unit: i18n.t(unit) }),
+      message: message,
       data
     };
   }
@@ -12,7 +11,7 @@ class REST {
   response({ message, data = {} }) {
     return {
       error: false,
-      message: i18n.t(message),
+      message: message,
       data
     };
   }
@@ -20,7 +19,7 @@ class REST {
   responseError({ statusCode, message, stack }) {
     return {
       error: true,
-      message: i18n.t(message),
+      message: message,
       code: statusCode,
       stack
     };

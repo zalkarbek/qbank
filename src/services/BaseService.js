@@ -12,6 +12,8 @@ class BaseService {
 }
 
 BaseService.prototype._db = db.knex
+BaseService.prototype._sdb = db.sequelize
+BaseService.prototype._sdbModels = db.sequelizeModels
 BaseService.prototype.getMime = function () {
     return mimeList
 }

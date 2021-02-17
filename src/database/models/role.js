@@ -1,11 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
   const schema = sequelize.define('role', {
 
-    role_i18n: {
-      type: DataTypes.STRING(255),
-      allowNull: true
-    },
-
     role_name: {
       type: DataTypes.STRING(255),
       allowNull: false,
@@ -17,38 +12,21 @@ module.exports = (sequelize, DataTypes) => {
       unique: true,
     },
 
-    role_desc: {
-      type: DataTypes.TEXT,
+    role_priority: {
+      type: DataTypes.INTEGER,
       allowNull: true
     },
-
-    active: {
-      type: DataTypes.BOOLEAN,
-      allowNull: true,
-      defaultValue: 1
-    },
-
-    lock: {
-      type: DataTypes.BOOLEAN,
-      allowNull: true,
-      defaultValue: 0
-    },
-
-    priority: {
-      type: DataTypes.INTEGER,
-      allowNull: false
-    }
 
   }, {
     tableName: 'roles',
     modelName: 'role',
-    timestamps: true
+    timestamps: false
   });
 
   schema.associate = (models) => {
     // -- associations can be defined here
     schema.belongsToMany(models.user, {
-      through: 'user_in_roles',
+      through: 'users_in_roles',
       foreignKey: 'role_id',
       otherKey: 'user_id'
     });

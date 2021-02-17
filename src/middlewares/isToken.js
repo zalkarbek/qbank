@@ -1,8 +1,9 @@
 const tokenGenerator = require('../helpers/token-generator');
-const service = require('../service');
-const userService = service.getService('user');
+const service = require('../services');
+const authService = service.getService('auth');
 
-module.exports = async (req, res, next) => {
+module.exports = async (ctx, next) => {
+  const req = ctx.request
   // проверка токена
   let token = req.headers['x-access-token'] || req.headers['authorization'] || req.headers['Authorization'];
 
@@ -14,17 +15,17 @@ module.exports = async (req, res, next) => {
   if(token) {
     try {
       const payload = await tokenGenerator.jwtVerify(token);
-      const user = await userService.getUserByEmailWithRole(payload.email);
+      const user = await authService.getUserByLogin(payload.login);
 
-      if(!user && !user.email) {
+      if(!user && !user.login) {
         let error = new Error('Authentication Error');
         error.data = { type: 'user_not_found', message: 'User not found' };
         return next(error);
       }
 
-      if(user.tokenId === payload.tokenId) {
+      if(user.access_token === payload.access_token) {
         req.payload = payload;
-        req.userRoles = JSON.stringify(user.roles);
+        req.userRoles = user.roles;
         return next();
       }
 
