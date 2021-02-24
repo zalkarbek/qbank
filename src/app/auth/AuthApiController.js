@@ -21,7 +21,7 @@ class AuthApiController extends Controller {
             token,
             user: {
                 id: user.id,
-                name_u: user.name_u,
+                name: user.name,
                 login: user.login,
                 roles: user.roles
             }
@@ -32,7 +32,14 @@ class AuthApiController extends Controller {
     }
 
     async logout(ctx, next) {
-
+        const request = ctx.request
+        const id = request.params.id || request.body.id
+        const deleted = await userService.userAccessTokenDelete(id)
+        ctx.body = {
+            success: Boolean(deleted),
+            message: 'Token deleted',
+            deleted
+        }
     }
 
     async changePassword(ctx, next) {

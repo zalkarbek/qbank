@@ -1,4 +1,3 @@
-
 const Service = require('./service');
 const crypter = require('../helpers/crypter');
 const db = Service.getInject('db');

@@ -11,6 +11,11 @@ class AdsApiController extends Controller {
         const duration = Number(ctx.request.body.duration)
         const timestamp = (new Date()).getTime()
 
+        if(!fs.existsSync(ctx.app.uploadPath)) {
+            fs.mkdirSync(ctx.app.uploadPath, {
+               recursive: true
+            })
+        }
         const filePath = path.join(ctx.app.uploadPath, `${timestamp}_${file.name}`)
         const fileName = `${timestamp}_${file.name}`
         const fileType = helperService.getFileType(fileName)
@@ -28,7 +33,9 @@ class AdsApiController extends Controller {
             error: false,
             message: 'Успешно сохранено',
             fileSaved: saved,
-            inserted
+            inserted,
+            oldPath: file.path,
+            newPath: filePath
         }
     }
 

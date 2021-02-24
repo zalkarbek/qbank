@@ -6,5 +6,8 @@ module.exports.use = function(koaRouter) {
     });
 
     apiRoute.get('/index', controller.index.bind(controller))
+    apiRoute.get('/web/:id', controller.id.bind(controller))
+    apiRoute.post('/create-user', controller.createUser.bind(controller))
+    apiRoute.post('/set-roles', controller.userSetRole.bind(controller))
     return apiRoute.routes();
 }

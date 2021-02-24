@@ -26,7 +26,7 @@ app.storagePath = path.join(rootPath.path, 'storages');
 app.uploadPath = path.join(rootPath.path, 'storages/uploads');
 app.cachePath = path.join(rootPath.path, 'storages/cache');
 
-app.use(errorHandler401);
+// app.use(errorHandler401);
 app.use(koaCors());
 app.use(ignoreAssets(koaLogger()));
 app.use(koaBody({

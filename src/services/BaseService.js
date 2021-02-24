@@ -1,5 +1,6 @@
 const db = require('../database/index')
 const mimeList = require('../config/mime')
+const _ = require('lodash')
 
 class BaseService {
     static db() {
@@ -14,6 +15,7 @@ class BaseService {
 BaseService.prototype._db = db.knex
 BaseService.prototype._sdb = db.sequelize
 BaseService.prototype._sdbModels = db.sequelizeModels
+BaseService.prototype._ = _
 BaseService.prototype.getMime = function () {
     return mimeList
 }

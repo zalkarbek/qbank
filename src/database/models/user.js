@@ -1,7 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
   const schema = sequelize.define('user', {
-
-    name_u: {
+    name: {
       type: DataTypes.STRING(250),
       allowNull: true
     },
@@ -28,7 +27,7 @@ module.exports = (sequelize, DataTypes) => {
     },
 
   }, {
-    tableName: 'users',
+    tableName: 'web_users',
     modelName: 'user',
     timestamps: false
   });
@@ -36,7 +35,7 @@ module.exports = (sequelize, DataTypes) => {
   schema.associate = (models) => {
     // associations can be defined here
     schema.belongsToMany(models.role, {
-      through: 'users_in_roles',
+      through: 'users_roles',
       foreignKey: 'user_id',
       otherKey: 'role_id'
     });

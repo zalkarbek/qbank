@@ -1,10 +1,10 @@
 const service = require('../service');
-const userService = service.getService('user');
+const authService = service.getService('auth');
 
 module.exports = (roles) => {
   return async (ctx, next) => {
-    const userRoles = JSON.parse(ctx.userRoles);
-    const checkedAccessRoles = await userService.checkAccessRole(userRoles, roles);
+    const userRoles = ctx.request.userRoles;
+    const checkedAccessRoles = await authService.checkAccessRole(userRoles, roles);
     if(checkedAccessRoles >= 1) {
       next();
     }

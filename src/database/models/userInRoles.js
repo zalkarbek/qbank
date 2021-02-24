@@ -16,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     tableName: 'users_in_roles',
     modelName: 'userInRoles',
-    timestamps: true
+    timestamps: false
   });
 
   schema.associate = (models) => {

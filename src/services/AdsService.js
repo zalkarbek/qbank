@@ -57,16 +57,15 @@ class AdsService extends BaseService {
         if(fs.existsSync(file_path)) {
             try {
                 fs.unlinkSync(file_path);
-                const deleted1 = await this._db('ads')
-                    .where('id', id)
-                    .del()
-                const deleted2 = await this._db('ads_schedules')
-                    .where('ads_id', id)
-                    .del()
-                return [deleted1, deleted2]
-            } catch(err) {
-                return [false, false]
-            }
+            } catch(err) {}
+            const deleted1 = await this._db('ads')
+                .where('id', id)
+                .del()
+            const deleted2 = await this._db('ads_schedules')
+                .where('ads_id', id)
+                .del()
+            return [deleted1, deleted2]
+
         } else {
             const deleted1 = await this._db('ads')
                 .where('id', id)

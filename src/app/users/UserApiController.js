@@ -9,18 +9,21 @@ class UserApiController extends Controller {
         ctx.body = await service.getUsers()
     }
 
+    async id(ctx, next) {
+        const id = ctx.request.params.id
+        const user = await userService.getUserById(id)
+        ctx.body = { user }
+    }
+
     async createUser(ctx, next) {
         const req = ctx.request
-        const { name_u, login, password } = req.body;
-        const user = await userService.createUser({ name_u, login, password });
-        const token = await authService.userGetToken(user);
+        const { name, login, password } = req.body;
+        const user = await userService.createUser({ name, login, password });
+        // const token = await authService.userGetToken(user);
 
-        return ctx.body = {
+        ctx.body = {
             message: 'create user success',
-            data: {
-                user,
-                token
-            }
+            data: { user }
         };
     }
 
@@ -29,11 +32,10 @@ class UserApiController extends Controller {
         const id = req.body.id || req.params.id;
         const roles = req.body.roles;
         const added = await userService.setRoles(id, roles);
-        return res.json(rest.responseWith({
-            unit: 'roles.many',
-            message: 'add.success.many',
+        ctx.body = {
+            message: 'Роли изменены',
             data: added
-        }));
+        };
     }
 }
 
