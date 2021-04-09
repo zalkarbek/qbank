@@ -7,6 +7,7 @@ dotenv.config();
 const env = process.env.NODE_ENV || 'development';
 
 const basename = path.basename(__filename);
+const knex = require('knex')
 const knexConfig = require('../config/knex')[env];
 const sequelizeConfig = require('../config/sequelize')[env];
 const QUERY = require('./const/queries');
@@ -15,15 +16,31 @@ const db = {
     sequelize: {},
     sequelizeModels: {},
     knex: {},
-    departmentDB: {},
+    departmentsDBLists: {},
     Sequelize,
     Op: Sequelize.Op,
     QUERY
 };
 
-db.knex = require('knex')({
+db.knex = knex({
     ...knexConfig
 })
+
+db.knexBuilder = knex
+
+db.knexChange = async function (dconfig) {
+    db.knex = knex( {
+        client: dconfig.dialect,
+        connection: {
+            host: dconfig.host,
+            port: dconfig.port,
+            user: dconfig.username,
+            password: dconfig.password,
+            database: dconfig.database
+        }
+    })
+}
+
 
 if (env) {
     const database = sequelizeConfig.database
@@ -37,7 +54,7 @@ if (env) {
         dialect: 'mysql'
     });
 }
-console.log(__dirname + '\\models')
+
 fs
     .readdirSync(__dirname + '\\models')
     .filter(file => {

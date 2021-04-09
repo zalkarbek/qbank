@@ -1,5 +1,5 @@
-const asyncMiddleware = fn => (req, res, next) => {
-  return fn(req, res, next)
+const asyncMiddleware = fn => (ctx, next) => {
+  return fn(ctx, next)
     .catch(next);
 };
 

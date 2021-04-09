@@ -6,11 +6,13 @@ class TerminalApiController extends Controller {
         ctx.body = await turnService.getTurns()
     }
 
+    // получить сегодняшние очереди
     async get_today_turns(ctx, next) {
         const turnService = this.getService('turn')
         ctx.body = await turnService.getTodayTurns()
     }
 
+    // получить диапазон очередей
     async get_range_turns(ctx, next) {
         const startDate = ctx.request.body.startDate
             || ctx.request.query.startDate
@@ -22,6 +24,7 @@ class TerminalApiController extends Controller {
         ctx.body = await turnService.getTurnsRange(startDate, endDate)
     }
 
+    // получить
     async get_today_operator_served_count(ctx, next) {
         const turnService = this.getService('turn')
         ctx.body = await turnService.getTodayOperatorServedCount()
